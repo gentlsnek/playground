@@ -6,13 +6,38 @@ fn main(){
 
     let contents = fs::read_to_string(file_path).expect("Could not find file");
 
-    let letters = contents.split("");
+    let words = contents.split(" ");
 
-    let mut letter_count: [i32; 26] = [0;26];
+    let mut word_vec: Vec<&str> = Vec::new();
+
+    for word in words{
+        word_vec.push(word);
+    }
 
     
+// println!("{:?}", word_vec);
 
-    for letter in letters {
+ let mut the_count: i32 = 0;
+
+
+ for x in word_vec{
+    if x.trim() == "the" || x .trim() == "The"{
+        the_count = the_count + 1;
+    }
+ }
+  
+  println!("there are : {} the or The in {}", the_count, file_path);
+    
+}
+
+/*
+
+for (i, count) in letter_count.iter().enumerate() {
+        let letter = (b'a' + i as u8) as char;
+        let upper_letter = (b'A' + i as u8) as char;
+        println!("{}{} : {}", letter, upper_letter, count);
+    }
+  for letter in letters {
         println!("{}", letter);
         match letter {
             "a" => letter_count[0] = letter_count[0] + 1,
@@ -70,9 +95,4 @@ fn main(){
              _ => continue,
         };
     }
-    for (i, count) in letter_count.iter().enumerate() {
-        let letter = (b'a' + i as u8) as char;
-        let upper_letter = (b'A' + i as u8) as char;
-        println!("{}{} : {}", letter, upper_letter, count);
-    }
-}
+ */
