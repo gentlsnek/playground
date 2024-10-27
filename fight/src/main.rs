@@ -4,6 +4,8 @@ use std::time::{Duration, Instant};
 use rand::Rng;
 use std::io;
 
+pub mod cltrctoexit;
+
 #[derive(Clone)]
 pub struct Player{
     name: String,
@@ -39,6 +41,8 @@ fn main(){
     } else {
         println!("Invalid player choices!");
     }
+
+    cltrctoexit::to_exit();
 }
 
 
@@ -54,9 +58,10 @@ fn attack(attacker: &mut Player,  defender:  &mut Player){
    defender.health = new_health;
    if defender.health > 0.0{
    println!("{} attacked {} for {} damage with bonus {}", attacker.name, defender.name, damage, bonus);
-   println!("{} health is now {}", defender.name, defender.health);
+   println!("{} health is now {:.2}", defender.name, defender.health);
    }
    else{
+    println!("{} attacked {} for {} damage with bonus {} ", attacker.name, defender.name, damage, bonus);
     println!("{} health is now 0", defender.name);
    }
 }
@@ -70,13 +75,7 @@ fn fight(player1: &mut Player, player2: &mut Player){
 
     let mut turn = 1;
     loop{
-        if turn == 1{
-            attack(player1, player2);
-            turn = 2;
-        }else{
-            attack(player2, player1);
-            turn = 1;
-        }
+        
         if player1.health <= 0.0{
             println!("{} has Lost", player1.name);
             break;
@@ -84,9 +83,21 @@ fn fight(player1: &mut Player, player2: &mut Player){
             println!("{} has Lost", player2.name);
             break;
         }
+
+
+        if turn == 1{
+            attack(player1, player2);
+            turn = 2;
+        }else{
+            attack(player2, player1);
+            turn = 1;
+        }
+        
        sleep(next_time - Instant::now());
        next_time += interval;
     }
+
+    
 }
 
 fn pick_fighters() -> [i32; 2]{
